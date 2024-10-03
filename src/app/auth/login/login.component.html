@@ -1,0 +1,33 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h2 class="text-center">Login</h2>
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input id="email" formControlName="email" type="email" class="form-control" placeholder="Enter your email">
+          <div *ngIf="loginForm.email?.invalid && (loginForm.email?.dirty || loginForm.email?.touched)"
+            class="text-danger">
+            <small *ngIf="loginForm.email?.errors?.required">Email is required.</small>
+            <small *ngIf="loginForm.email?.errors?.email">Invalid email format.</small>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input id="password" formControlName="password" type="password" class="form-control"
+            placeholder="Enter your password">
+          <div *ngIf="loginForm.password?.invalid && (loginForm.password?.dirty || loginForm.password?.touched)"
+            class="text-danger">
+            <small *ngIf="loginForm.password?.errors?.required">Password is required.</small>
+            <small *ngIf="loginForm.password?.errors?.minlength">Password must be at least 6 characters long.</small>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid">Login</button>
+        <button class="btn btn-primary w-100 mt-2" routerLink="/signup">New User? Sign up</button>
+
+      </form>
+    </div>
+  </div>
+</div>

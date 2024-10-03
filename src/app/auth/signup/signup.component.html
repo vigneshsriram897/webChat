@@ -1,0 +1,46 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h2 class="text-center">Sign Up</h2>
+      <form [formGroup]="signupForm" (ngSubmit)="signup()">
+
+        <div class="mb-3">
+          <label for="signupForm.name" class="form-label">Name</label>
+          <input id="signupForm.name" formControlName="name" type="text" class="form-control"
+            placeholder="Enter your name">
+          <div *ngIf="signupForm.name?.invalid && (signupForm.name?.dirty || signupForm.name?.touched)"
+            class="text-danger">
+            <small *ngIf="signupForm.name?.errors?.required">signupForm.name is required.</small>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="signupForm.email" class="form-label">Email</label>
+          <input id="signupForm.email" formControlName="email" type="email" class="form-control"
+            placeholder="Enter your email">
+          <div *ngIf="signupForm.email?.invalid && (signupForm.email?.dirty || signupForm.email?.touched)"
+            class="text-danger">
+            <small *ngIf="signupForm.email?.errors?.required">signupForm.email is required.</small>
+            <small *ngIf="signupForm.email?.errors?.signupForm.email">Invalid signupForm.email format.</small>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="signupForm.password" class="form-label">Password</label>
+          <input id="signupForm.password" formControlName="password" type="password" class="form-control"
+            placeholder="Enter your password">
+          <div *ngIf="signupForm.password?.invalid && (signupForm.password?.dirty || signupForm.password?.touched)"
+            class="text-danger">
+            <small *ngIf="signupForm.password?.errors?.required">signupForm.password is required.</small>
+            <small *ngIf="signupForm.password?.errors?.minlength">signupForm.password must be at least 6 characters
+              long.</small>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+        <button type="submit" class="btn btn-primary w-100 mt-2" routerLink="/login">Login</button>
+
+      </form>
+    </div>
+  </div>
+</div>

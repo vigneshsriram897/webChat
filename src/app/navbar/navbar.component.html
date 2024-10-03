@@ -1,0 +1,22 @@
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark" *ngIf="loginService.isLoggedIn()">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">WebChat</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="ml-auto d-flex align-content-right">
+            <button class="btn" style="color: #fff;" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                {{ currentTime }}
+            </button>
+            <button class="btn btn-secondary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class="bi bi-person-circle"></i> {{ username | uppercase}}
+            </button>
+            &nbsp;
+            &nbsp;
+            <button class="btn btn-secondary ml-3" aria-current="page" (click)="loginService.logout()">Logout</button>
+        </div>
+    </div>
+</nav>
