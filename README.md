@@ -2,7 +2,7 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.7.
 
-
+Frontend:
 cd folderName
 npm install
 npm start or ng serve
@@ -10,8 +10,7 @@ npm start or ng serve
 Will Run on localhost:4200
 
 
-For Backend
-
+For Backend:
 Please go the folder named  webChat - Backend 
 npm install
 npm start or node server.js
