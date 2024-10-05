@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db/db'); 
+const db = require('../db/db');
 const WebSocket = require('ws');
-let wss; 
+let wss;
 
 const setWSS = (wsInstance) => {
     wss = wsInstance;
@@ -30,10 +30,9 @@ router.get('/conversations/:userId', async (req, res) => {
     }
 });
 
-router.post('/conversations', async (req, res) => {
-    const { senderId, receiverId, message } = req.body;
+let chat = ((senderId, receiverId, message) => {
     try {
-        await db.execute(
+        db.execute(
             'INSERT INTO conversations (sender_id, receiver_id, message) VALUES (?, ?, ?)',
             [senderId, receiverId, message]
         );
@@ -41,9 +40,9 @@ router.post('/conversations', async (req, res) => {
         const newMessage = { senderId, receiverId, message };
         broadcastMessage(receiverId, newMessage);
 
-        res.status(200).json({ message: 'Message sent' });
+        // res.status(200).json({ message: 'Message sent' });
     } catch (err) {
-        res.status(500).send(err);
+        // res.status(500).send(err);
     }
 });
-module.exports = { router, setWSS };
+module.exports = { router, setWSS, chat };

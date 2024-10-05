@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { LoginService } from './login-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class MessageService {
   public messages: any[] = [];
   public messages$ = new Subject<any[]>();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private loginService: LoginService) {
   }
 
   public connectWebSocket(userId: string) {

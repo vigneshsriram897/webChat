@@ -31,7 +31,9 @@ export class DashboardComponent implements AfterViewChecked {
   public userId!: number;
   messagesSubscription: any;
   ngOnInit() {
-    this.loadUsers();
+    this.loadUsers().then((data: any) => {
+      // this.selectUser(data.filter((a: any) => a.id != this.loginService.decodedToken.userId)[0])
+    });
     this.chatService.connectWebSocket(this.loginService.decodedToken.userId);
     this.messagesSubscription = this.chatService.messages$.subscribe(
       (newMessages) => {
@@ -40,21 +42,25 @@ export class DashboardComponent implements AfterViewChecked {
       }
     );
   }
+  selectedUserConversation = [];
   selectUser(user: any) {
     this.selectedUser = user;
     this.loadConversations(user.id);
   }
 
   loadUsers() {
-    this.chatService.getUsers().subscribe(data => {
-      this.users = data;
-      this.selectUser(data.filter((a: any) => a.id != this.loginService.decodedToken.userId)[0])
-    });
+    return new Promise((resolve, reject) => {
+      this.chatService.getUsers().subscribe(data => {
+        this.users = data;
+        resolve(data)
+      });
+    })
   }
+
   loadConversations(userId: number) {
     this.chatService.fetchMessages(userId).subscribe((data: any) => {
-      this.conversations = data;
-      this.chatService.messages = data;
+      this.conversations = data.filter((x: any) => x.sender_id == this.loginService.decodedToken.userId && x.receiver_id == userId || x.sender_id == userId && x.receiver_id == this.loginService.decodedToken.userId);
+      this.chatService.messages = data.filter((x: any) => x.sender_id == this.loginService.decodedToken.userId && x.receiver_id == userId || x.sender_id == userId && x.receiver_id == this.loginService.decodedToken.userId);
     })
 
   }
@@ -64,5 +70,6 @@ export class DashboardComponent implements AfterViewChecked {
       this.chatService.sendMessage(this.loginService.decodeToken().userId, this.selectedUser.id, this.message);
     }
     this.message = '';
+    this.loadConversations(this.selectedUser.id)
   }
 }

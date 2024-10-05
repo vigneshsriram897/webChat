@@ -15,12 +15,12 @@ const textRouter = require('./controllers/text');
 
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
+const db = require('./db/db');
 
 textRouter.setWSS(wss);
 let userSockets = {};
 wss.on('connection', (ws, req) => {
   const userId = new URL(req.url, `http://${req.headers.host}`).searchParams.get('userId');
-
   if (userId) {
     userSockets[userId] = ws;
     console.log(`User connected: ${userId}`);
@@ -33,7 +33,8 @@ wss.on('connection', (ws, req) => {
 
       if (userSockets[receiverId]) {
         const recipientSocket = userSockets[receiverId];
-        console.log({ senderId: userId, message: message }, "server.js line 94")
+        console.log({ senderId: userId, message: message }, "server.js line 94");
+        textRouter.chat(senderId, receiverId, message)
         recipientSocket.send(JSON.stringify({ senderId: userId, message: message }));
         console.log(`Message sent to ${receiverId}`);
       } else {
